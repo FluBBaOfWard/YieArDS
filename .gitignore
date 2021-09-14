@@ -1,0 +1,7 @@
+build
+*.zip
+include/yiear
+*.elf
+*.nds
+YieArDS.xcodeproj/xcuserdata
+YieArDS.xcodeproj/project.xcworkspace/xcuserdata

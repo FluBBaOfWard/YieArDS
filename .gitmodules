@@ -1,0 +1,15 @@
+[submodule "source/Shared"]
+	path = source/Shared
+	url = https://github.com/FluBBaOfWard/NDS_Shared.git
+[submodule "source/VLM5030"]
+	path = source/VLM5030
+	url = https://github.com/FluBBaOfWard/VLM5030.git
+[submodule "source/SN76496"]
+	path = source/SN76496
+	url = https://github.com/FluBBaOfWard/SN76496.git
+[submodule "source/ARM6809"]
+	path = source/ARM6809
+	url = https://github.com/FluBBaOfWard/ARM6809.git
+[submodule "source/YieArVideo"]
+	path = source/YieArVideo
+	url = https://github.com/FluBBaOfWard/YieArVideo.git
