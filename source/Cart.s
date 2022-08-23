@@ -1,7 +1,7 @@
 #ifdef __arm__
 
 #include "Equates.h"
-#include "ARM6809/arm6809mac.h"
+#include "ARM6809/ARM6809mac.h"
 #include "YieArVideo/YieArVideo.i"
 
 	.global machineInit
