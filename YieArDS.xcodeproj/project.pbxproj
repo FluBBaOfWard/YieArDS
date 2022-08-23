@@ -177,7 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				9C7BB96F2600FE0700EA9C9C /* graphics */,
-				A4D0E1052089293300401463 /* unzip */,
+				A4D0E1052089293300401463 /* Unzip */,
 				9CBEE10A26F11B530095347A /* README.md */,
 				9C8F3402248ACC4000996E5A /* nds_asm.h */,
 				9CBEE10926F11B530095347A /* EmuSettings.h */,
@@ -241,7 +241,7 @@
 			path = SN76496;
 			sourceTree = "<group>";
 		};
-		A4D0E1052089293300401463 /* unzip */ = {
+		A4D0E1052089293300401463 /* Unzip */ = {
 			isa = PBXGroup;
 			children = (
 				A4D0E1072089293300401463 /* puff.h */,
@@ -249,7 +249,7 @@
 				A4D0E1082089293300401463 /* unzipnds.h */,
 				A4D0E1062089293300401463 /* unzipnds.c */,
 			);
-			path = unzip;
+			path = Unzip;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,7 +310,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVKITARM = $DEVKITPRO/devkitarm;
-				DEVKITPRO = /opt/devkitpro_old;
+				DEVKITPRO = /opt/devkitpro;
 				PRODUCT_NAME = YieArDS;
 			};
 			name = Debug;

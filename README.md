@@ -1,4 +1,4 @@
-# YieArDS V0.1.5
+# YieArDS V0.1.6
 
 This is a Yie Ar Kung-Fu - Arcade emulator for the NDS.
 
