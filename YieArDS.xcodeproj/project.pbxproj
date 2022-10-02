@@ -24,7 +24,6 @@
 		9C50824125D5B74200A8E1BA /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		9C50824225D5B74200A8E1BA /* History.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = History.txt; sourceTree = "<group>"; };
 		9C50824325D5B74200A8E1BA /* YieArVideo_todo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YieArVideo_todo.txt; sourceTree = "<group>"; };
-		9C50824625D5C0E500A8E1BA /* Equates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Equates.h; sourceTree = "<group>"; };
 		9C50824725D5C10F00A8E1BA /* Gui.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Gui.c; sourceTree = "<group>"; };
 		9C50824825D5C10F00A8E1BA /* Gfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gfx.h; sourceTree = "<group>"; };
 		9C50824925D5C10F00A8E1BA /* Memory.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = Memory.s; sourceTree = "<group>"; };
@@ -116,8 +115,8 @@
 		9C50823D25D5B6FE00A8E1BA /* YieArVideo */ = {
 			isa = PBXGroup;
 			children = (
-				9CBEE10626F11AE40095347A /* README.md */,
 				9C50824325D5B74200A8E1BA /* YieArVideo_todo.txt */,
+				9CBEE10626F11AE40095347A /* README.md */,
 				9C50824225D5B74200A8E1BA /* History.txt */,
 				9C50824125D5B74200A8E1BA /* Version.h */,
 				9C50823E25D5B6FE00A8E1BA /* YieArVideo.h */,
@@ -148,8 +147,8 @@
 		A47305831D577EF2004F6525 /* ARM6809 */ = {
 			isa = PBXGroup;
 			children = (
-				9CBEE10526F11AA60095347A /* README.md */,
 				9CC5FEBC22EADF6400AFB8DF /* ARM6809ToDo.txt */,
+				9CBEE10526F11AA60095347A /* README.md */,
 				9C4B987325BC6F6F00A3F3B0 /* History.txt */,
 				9C4B987425BC6F6F00A3F3B0 /* Version.h */,
 				9C4B987025BC6F6F00A3F3B0 /* ARM6809.h */,
@@ -163,8 +162,8 @@
 		A47AFF1E20DFBC450081DB4E /* VLM5030 */ = {
 			isa = PBXGroup;
 			children = (
-				9CBEE10826F11B400095347A /* README.md */,
 				A47FEA8620F653F300D47785 /* VLM5030_todo.txt */,
+				9CBEE10826F11B400095347A /* README.md */,
 				A47FEA8420F653F300D47785 /* History.txt */,
 				A47FEA8520F653F300D47785 /* Version.h */,
 				A47AFF2020DFBC450081DB4E /* vlm5030.h */,
@@ -203,11 +202,12 @@
 				A49D34551757E54900BD9B4B /* SN76496 */,
 				A47AFF1E20DFBC450081DB4E /* VLM5030 */,
 				A47F093020864422004E1DA6 /* Shared */,
-				9C50824625D5C0E500A8E1BA /* Equates.h */,
 				9C50825025D5C10F00A8E1BA /* Main.h */,
 				9C50825125D5C10F00A8E1BA /* Main.c */,
 				9C50824C25D5C10F00A8E1BA /* Gui.h */,
 				9C50824725D5C10F00A8E1BA /* Gui.c */,
+				9C50824B25D5C10F00A8E1BA /* FileHandling.h */,
+				9C50825325D5C10F00A8E1BA /* FileHandling.c */,
 				9C9CA7A425F2663F00DC6DF5 /* YieAr.h */,
 				9C9CA7A325F2663F00DC6DF5 /* YieAr.c */,
 				9C50825225D5C10F00A8E1BA /* Cart.h */,
@@ -221,8 +221,6 @@
 				9C50824825D5C10F00A8E1BA /* Gfx.h */,
 				9C50824D25D5C10F00A8E1BA /* Gfx.s */,
 				9C50824925D5C10F00A8E1BA /* Memory.s */,
-				9C50824B25D5C10F00A8E1BA /* FileHandling.h */,
-				9C50825325D5C10F00A8E1BA /* FileHandling.c */,
 			);
 			path = source;
 			sourceTree = "<group>";
@@ -230,8 +228,8 @@
 		A49D34551757E54900BD9B4B /* SN76496 */ = {
 			isa = PBXGroup;
 			children = (
-				9CBEE10726F11B290095347A /* README.md */,
 				A47FEA9020F7638C00D47785 /* SN76496_todo.txt */,
+				9CBEE10726F11B290095347A /* README.md */,
 				A47FEA9420F7638C00D47785 /* History.txt */,
 				A47FEA9120F7638C00D47785 /* Version.h */,
 				A47FEA9520F7638C00D47785 /* SN76496.h */,

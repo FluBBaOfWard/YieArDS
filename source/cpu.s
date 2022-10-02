@@ -6,8 +6,8 @@
 
 #define CYCLE_PSL (96)
 
-	.global cpuReset
 	.global run
+	.global cpuReset
 	.global frameTotal
 	.global waitMaskIn
 	.global waitMaskOut

@@ -45,7 +45,7 @@ static const ArcadeRom yiearRoms[10] = {
 	{"407_d04.15h", 0x4000, 0xcc187c22},
 	// ROM_REGION( 0x0020, "proms", 0 )
 	{"407c10.1g",   0x0020, 0xc283d71f},
-	// ROM_REGION( 0x2000, "vlm", 0 )  /* 8k for the VLM5030 data */
+	// ROM_REGION( 0x2000, "vlm", 0 )  // 8k for the VLM5030 data
 	{"407_c09.8b",  0x2000, 0xf75a1539},
 };
 
@@ -63,11 +63,11 @@ static const ArcadeRom yiear2Roms[10] = {
 	{"407_d04.15h", 0x4000, 0xcc187c22},
 	// ROM_REGION( 0x0020, "proms", 0 )
 	{"407c10.1g",   0x0020, 0xc283d71f},
-	// ROM_REGION( 0x2000, "vlm", 0 )  /* 8k for the VLM5030 data */
+	// ROM_REGION( 0x2000, "vlm", 0 )  // 8k for the VLM5030 data
 	{"407_c09.8b",  0x2000, 0xf75a1539},
 };
 
-const ArcadeGame games[GAME_COUNT] = {
-	{"yiear",  "Yie Ar Kung-Fu (program code I)", 10, yiearRoms},
-	{"yiear2", "Yie Ar Kung-Fu (program code G)", 10, yiear2Roms},
+const ArcadeGame yiearGames[GAME_COUNT] = {
+	AC_GAME("yiear",  "Yie Ar Kung-Fu (program code I)", yiearRoms)
+	AC_GAME("yiear2", "Yie Ar Kung-Fu (program code G)", yiear2Roms)
 };
