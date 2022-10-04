@@ -9,11 +9,12 @@
 #include "Cart.h"
 #include "Gfx.h"
 #include "io.h"
+#include "cpu.h"
 #include "ARM6809/Version.h"
 #include "SN76496/Version.h"
 #include "YieArVideo/Version.h"
 
-#define EMUVERSION "V0.1.6 2022-10-02"
+#define EMUVERSION "V0.1.6 2022-10-04"
 
 static void uiDebug(void);
 
@@ -26,7 +27,7 @@ const fptr fnList3[] = {uiDummy};
 const fptr fnList4[] = {autoBSet, autoASet, controllerSet, swapABSet};
 const fptr fnList5[] = {scalingSet, flickSet, gammaSet};
 const fptr fnList6[] = {speedSet, autoStateSet, autoSettingsSet, autoPauseGameSet, powerSaveSet, screenSwapSet, sleepSet};
-const fptr fnList7[] = {debugTextSet, bgrLayerSet, sprLayerSet};
+const fptr fnList7[] = {debugTextSet, bgrLayerSet, sprLayerSet, stepFrame};
 const fptr fnList8[] = {coinASet, coinBSet, bonusSet, demoSet, livesSet, cabinetSet, difficultSet, uprightSet, flipSet, serviceSet};
 const fptr fnList9[] = {quickSelectGame, quickSelectGame};
 const fptr fnList10[] = {uiDummy};
@@ -68,6 +69,11 @@ void enterGUI() {
 
 /// This is called going from ui to emu.
 void exitGUI() {
+}
+
+void autoLoadGame(void) {
+	ui9();
+	quickSelectGame();
 }
 
 void quickSelectGame(void) {

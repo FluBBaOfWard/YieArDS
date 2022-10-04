@@ -7,6 +7,7 @@
 #define CYCLE_PSL (96)
 
 	.global run
+	.global stepFrame
 	.global cpuReset
 	.global frameTotal
 	.global waitMaskIn
@@ -19,7 +20,7 @@
 	.section .text
 	.align 2
 ;@----------------------------------------------------------------------------
-run:		;@ return after 1 frame
+run:						;@ Return after X frame(s)
 	.type   run STT_FUNC
 ;@----------------------------------------------------------------------------
 	ldrh r0,waitCountIn
@@ -55,11 +56,12 @@ runStart:
 ;@----------------------------------------------------------------------------
 konamiFrameLoop:
 ;@----------------------------------------------------------------------------
+	mov r0,#CYCLE_PSL
+	bl m6809RunXCycles
 	ldr koptr,=yieAr_0
 	bl doScanline
 	cmp r0,#0
-	movne r0,#CYCLE_PSL
-	bne m6809RunXCycles
+	bne konamiFrameLoop
 ;@----------------------------------------------------------------------------
 
 	add r0,m6809optbl,#m6809Regs
@@ -84,12 +86,40 @@ konamiFrameLoop:
 
 ;@----------------------------------------------------------------------------
 cyclesPerScanline:	.long 0
-frameTotal:			.long 0		;@ Let ui.c see frame count for savestates
+frameTotal:			.long 0		;@ Let Gui.c see frame count for savestates
 waitCountIn:		.byte 0
 waitMaskIn:			.byte 0
 waitCountOut:		.byte 0
 waitMaskOut:		.byte 0
 
+;@----------------------------------------------------------------------------
+stepFrame:					;@ Return after 1 frame
+	.type   stepFrame STT_FUNC
+;@----------------------------------------------------------------------------
+	stmfd sp!,{r4-r11,lr}
+
+	ldr m6809optbl,=m6809OpTable
+	add r0,m6809optbl,#m6809Regs
+	ldmia r0,{m6809f-m6809pc,m6809sp}	;@ Restore M6809 state
+;@----------------------------------------------------------------------------
+konamiStepLoop:
+;@----------------------------------------------------------------------------
+	mov r0,#CYCLE_PSL
+	bl m6809RunXCycles
+	ldr koptr,=yieAr_0
+	bl doScanline
+	cmp r0,#0
+	bne konamiStepLoop
+;@----------------------------------------------------------------------------
+	add r0,m6809optbl,#m6809Regs
+	stmia r0,{m6809f-m6809pc,m6809sp}	;@ Save M6809 state
+
+	ldr r1,frameTotal
+	add r1,r1,#1
+	str r1,frameTotal
+
+	ldmfd sp!,{r4-r11,lr}
+	bx lr
 ;@----------------------------------------------------------------------------
 bloHack:
 ;@----------------------------------------------------------------------------
@@ -116,11 +146,7 @@ cpuReset:		;@ Called by loadcart/resetGame
 	adr r4,cpuMapData
 	bl map6809Memory
 
-	adr r0,konamiFrameLoop
-	str r0,[m6809optbl,#m6809NextTimeout]
-	str r0,[m6809optbl,#m6809NextTimeout_]
-
-	mov r0,#0
+	mov r0,m6809optbl
 	bl m6809Reset
 
 	adr r0,bloHack
