@@ -6,18 +6,24 @@
 
 #define CYCLE_PSL (96)
 
-	.global run
-	.global stepFrame
-	.global cpuReset
 	.global frameTotal
 	.global waitMaskIn
 	.global waitMaskOut
+	.global m6809CPU0
 
+	.global run
+	.global stepFrame
+	.global cpuInit
+	.global cpuReset
 
 	.syntax unified
 	.arm
 
-	.section .text
+#ifdef GBA
+	.section .ewram, "ax", %progbits	;@ For the GBA
+#else
+	.section .text						;@ For anything else
+#endif
 	.align 2
 ;@----------------------------------------------------------------------------
 run:						;@ Return after X frame(s)
@@ -49,8 +55,8 @@ runStart:
 
 	bl refreshEMUjoypads		;@ Z=1 if communication ok
 
-	ldr m6809optbl,=m6809OpTable
-	add r0,m6809optbl,#m6809Regs
+	ldr m6809ptr,=m6809CPU0
+	add r0,m6809ptr,#m6809Regs
 	ldmia r0,{m6809f-m6809pc,m6809sp}	;@ Restore M6809 state
 
 ;@----------------------------------------------------------------------------
@@ -64,7 +70,7 @@ konamiFrameLoop:
 	bne konamiFrameLoop
 ;@----------------------------------------------------------------------------
 
-	add r0,m6809optbl,#m6809Regs
+	add r0,m6809ptr,#m6809Regs
 	stmia r0,{m6809f-m6809pc,m6809sp}	;@ Save M6809 state
 
 	ldr r1,=fpsValue
@@ -98,8 +104,8 @@ stepFrame:					;@ Return after 1 frame
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{r4-r11,lr}
 
-	ldr m6809optbl,=m6809OpTable
-	add r0,m6809optbl,#m6809Regs
+	ldr m6809ptr,=m6809CPU0
+	add r0,m6809ptr,#m6809Regs
 	ldmia r0,{m6809f-m6809pc,m6809sp}	;@ Restore M6809 state
 ;@----------------------------------------------------------------------------
 konamiStepLoop:
@@ -111,7 +117,7 @@ konamiStepLoop:
 	cmp r0,#0
 	bne konamiStepLoop
 ;@----------------------------------------------------------------------------
-	add r0,m6809optbl,#m6809Regs
+	add r0,m6809ptr,#m6809Regs
 	stmia r0,{m6809f-m6809pc,m6809sp}	;@ Save M6809 state
 
 	ldr r1,frameTotal
@@ -132,6 +138,11 @@ bloHack:
 skipBlo:
 	fetch 3
 ;@----------------------------------------------------------------------------
+cpuInit:			;@ Called by machineInit
+;@----------------------------------------------------------------------------
+	ldr r0,=m6809CPU0
+	b m6809Init
+;@----------------------------------------------------------------------------
 cpuReset:		;@ Called by loadcart/resetGame
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{lr}
@@ -141,16 +152,18 @@ cpuReset:		;@ Called by loadcart/resetGame
 	str r0,cyclesPerScanline
 
 ;@--------------------------------------
-	ldr m6809optbl,=m6809OpTable
+	ldr m6809ptr,=m6809CPU0
 
 	adr r4,cpuMapData
 	bl map6809Memory
 
-	mov r0,m6809optbl
+	mov r0,m6809ptr
 	bl m6809Reset
 
-	adr r0,bloHack
-	str r0,[m6809optbl,#0x25*4]
+	mov r0,m6809ptr
+	adr r2,bloHack
+	mov r1,#0x25
+	bl m6809PatchOpcode
 
 	ldmfd sp!,{lr}
 	bx lr
@@ -177,6 +190,16 @@ m6809DataLoop:
 	movs r5,r5,lsr#1
 	bne m6809DataLoop
 	ldmfd sp!,{pc}
+;@----------------------------------------------------------------------------
+#ifdef NDS
+	.section .dtcm, "ax", %progbits		;@ For the NDS
+#elif GBA
+	.section .iwram, "ax", %progbits	;@ For the GBA
+#endif
+	.align 2
+;@----------------------------------------------------------------------------
+m6809CPU0:
+	.space m6809Size
 ;@----------------------------------------------------------------------------
 	.end
 #endif // #ifdef __arm__
