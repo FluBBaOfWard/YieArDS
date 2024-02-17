@@ -16,10 +16,6 @@
 #include "Sound.h"
 #include "VLM5030/vlm5030.h"
 
-//#define sample_rate 32768
-#define sample_rate 52000
-#define buffer_size (512+10)
-
 static void checkTimeOut(void);
 static void setupGraphics(void);
 static void setupStream(void);
@@ -70,10 +66,11 @@ int main(int argc, char **argv) {
 	setupGUI();
 	getInput();
 	loadCart(0,0);
-	if ( initFileHelper() ) {
+	if (initFileHelper()) {
 		loadSettings();
 		autoLoadGame();
-	} else {
+	}
+	else {
 		drawText("fatInitDefault() failure.",23,0);
 	}
 
@@ -110,7 +107,8 @@ static void checkTimeOut() {
 //---------------------------------------------------------------------------------
 	if (EMUinput) {
 		sleepTimer = sleepTime;
-	} else {
+	}
+	else {
 		sleepTimer--;
 		if (sleepTimer < 0) {
 			sleepTimer = sleepTime;
@@ -126,13 +124,16 @@ void setEmuSpeed(int speed) {
 	if (speed == 0) {			// Normal Speed
 		waitMaskIn = 0x00;
 		waitMaskOut = 0x00;
-	} else if (speed == 1) {	// Double speed
+	}
+	else if (speed == 1) {	// Double speed
 		waitMaskIn = 0x00;
 		waitMaskOut = 0x01;
-	} else if (speed == 2) {	// Max speed (4x)
+	}
+	else if (speed == 2) {	// Max speed (4x)
 		waitMaskIn = 0x00;
 		waitMaskOut = 0x03;
-	} else if (speed == 3) {	// 50% speed
+	}
+	else if (speed == 3) {	// 50% speed
 		waitMaskIn = 0x01;
 		waitMaskOut = 0x00;
 	}
@@ -204,7 +205,7 @@ static void setupStream(void) {
 	myStream.buffer_length	= buffer_size;				// buffer length =
 //	myStream.callback		= mix_sound;				// set callback function
 	myStream.callback		= VblSound2;				// set callback function
-	myStream.format			= MM_STREAM_16BIT_STEREO;	// format = stereo 16-bit
+	myStream.format			= MM_STREAM_16BIT_MONO;		// format = mono 16-bit
 	myStream.timer			= MM_TIMER0;				// use hardware timer 0
 	myStream.manual			= false;					// use manual filling
 	mmStreamOpen( &myStream );

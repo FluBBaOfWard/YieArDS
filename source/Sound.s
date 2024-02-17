@@ -26,7 +26,7 @@ soundInit:
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{lr}
 
-//	ldr snptr,=SN76496_0
+//	ldr r0,=SN76496_0
 //	ldr r1,=FREQTBL
 //	bl sn76496Init				;@ Sound
 
@@ -37,7 +37,7 @@ soundInit:
 soundReset:
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{lr}
-	ldr snptr,=SN76496_0
+	ldr r1,=SN76496_0
 	mov r0,#1
 	bl sn76496Reset				;@ Sound
 	ldmfd sp!,{lr}
@@ -60,15 +60,15 @@ setMuteSoundGame:			;@ For System E ?
 VblSound2:					;@ r0=length, r1=pointer
 ;@----------------------------------------------------------------------------
 ;@	mov r11,r11
-	stmfd sp!,{r0,r1,r4,lr}
 
 	ldr r2,muteSound
 	cmp r2,#0
 	bne silenceMix
+	stmfd sp!,{r0,r1,r4,lr}
 
 	mov r0,r0,lsl#1
 	ldr r1,pcmPtr0
-	ldr snptr,=SN76496_0
+	ldr r2,=SN76496_0
 	bl sn76496Mixer
 
 	ldmfd sp,{r0}
@@ -90,94 +90,84 @@ mixLoop:
 	mov r4,r4,rrx
 	add r4,r12,r4,asr#2
 	mov r4,r4,lsr#16
-	orr r4,r4,r4,lsl#16
 	subs r0,r0,#1
-	strpl r4,[r1],#4
+	strhpl r4,[r1],#2
 
 	ldr r4,[r2],#4
 	adds r4,r4,r4,lsl#16
 	mov r4,r4,rrx
 	add r4,r12,r4,asr#2
 	mov r4,r4,lsr#16
-	orr r4,r4,r4,lsl#16
 	subs r0,r0,#1
-	strpl r4,[r1],#4
+	strhpl r4,[r1],#2
 
 	ldr r4,[r2],#4
 	adds r4,r4,r4,lsl#16
 	mov r4,r4,rrx
 	add r4,r12,r4,asr#2
 	mov r4,r4,lsr#16
-	orr r4,r4,r4,lsl#16
 	subs r0,r0,#1
-	strpl r4,[r1],#4
+	strhpl r4,[r1],#2
 
 	ldr r4,[r2],#4
 	adds r4,r4,r4,lsl#16
 	mov r4,r4,rrx
 	add r4,r12,r4,asr#2
 	mov r4,r4,lsr#16
-	orr r4,r4,r4,lsl#16
 	subs r0,r0,#1
-	strpl r4,[r1],#4
+	strhpl r4,[r1],#2
 
 	ldr r4,[r2],#4
 	adds r4,r4,r4,lsl#16
 	mov r4,r4,rrx
 	add r4,r12,r4,asr#2
 	mov r4,r4,lsr#16
-	orr r4,r4,r4,lsl#16
 	subs r0,r0,#1
-	strpl r4,[r1],#4
+	strhpl r4,[r1],#2
 
 	ldr r4,[r2],#4
 	adds r4,r4,r4,lsl#16
 	mov r4,r4,rrx
 	add r4,r12,r4,asr#2
 	mov r4,r4,lsr#16
-	orr r4,r4,r4,lsl#16
 	subs r0,r0,#1
-	strpl r4,[r1],#4
+	strhpl r4,[r1],#2
 
 	ldr r4,[r2],#4
 	adds r4,r4,r4,lsl#16
 	mov r4,r4,rrx
 	add r4,r12,r4,asr#2
 	mov r4,r4,lsr#16
-	orr r4,r4,r4,lsl#16
 	subs r0,r0,#1
-	strpl r4,[r1],#4
+	strhpl r4,[r1],#2
 
 	ldr r4,[r2],#4
 	adds r4,r4,r4,lsl#16
 	mov r4,r4,rrx
 	add r4,r12,r4,asr#2
 	mov r4,r4,lsr#16
-	orr r4,r4,r4,lsl#16
 	subs r0,r0,#1
-	strpl r4,[r1],#4
+	strhpl r4,[r1],#2
 	bgt mixLoop
 
 	ldmfd sp!,{r0,r1,r4,lr}
 	bx lr
 
 silenceMix:
-	ldmfd sp!,{r0,r1}
-	mov r12,r0
+	mov r12,r0,lsr#1
 	mov r2,#0
 silenceLoop:
 	subs r12,r12,#1
 	strpl r2,[r1],#4
 	bhi silenceLoop
 
-	ldmfd sp!,{r4,lr}
 	bx lr
 
 ;@----------------------------------------------------------------------------
 SN_0_W:
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{r3,lr}
-	ldr snptr,=SN76496_0
+	ldr r1,=SN76496_0
 	bl sn76496W
 	ldmfd sp!,{r3,lr}
 	bx lr

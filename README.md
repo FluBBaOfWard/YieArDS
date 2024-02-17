@@ -19,6 +19,7 @@ To select between the tabs use R & L or the touchscreen.
 ## Menu
 
 ### File
+
 * Load Game: Select a game to load.
 * Load State: Load a previously saved state for the currently running game.
 * Save State: Save a state for the current game.
@@ -26,6 +27,7 @@ To select between the tabs use R & L or the touchscreen.
 * Reset Game: Reset the currently running game.
 
 ### Options
+
 * Controller:
   * Autofire: Select if you want autofire.
   * Controller: 2P start a 2 player game.
@@ -73,6 +75,7 @@ More MAME people + Maxim for the SN76496 info.
 ```
 
 Fredrik Ahlström
-X/Twitter @TheRealFluBBa
-https://www.github.com/FluBBaOfWard
 
+X/Twitter @TheRealFluBBa
+
+<https://www.github.com/FluBBaOfWard>

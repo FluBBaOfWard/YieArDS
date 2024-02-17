@@ -25,7 +25,6 @@
 	.global yieAr_0W
 	.global emuRAM
 
-
 	.syntax unified
 	.arm
 
@@ -47,7 +46,8 @@ gfxInit:					;@ Called from machineInit
 	ldrb r0,[r0]
 	bl paletteInit				;@ Do palette mapping
 
-	bl yieArInit
+	ldr r0,=CHR_DECODE
+	bl yiearInit
 
 	ldmfd sp!,{pc}
 
@@ -74,7 +74,7 @@ gfxReset:					;@ Called with CPU reset
 	ldr r0,=m6809SetNMIPin
 	ldr r1,=m6809SetIRQPin
 	ldr r2,=emuRAM
-	bl yieArReset0
+	bl yiearReset0
 	bl bgInit
 
 	bl paletteTxAll				;@ Transfer palette
@@ -88,8 +88,7 @@ bgInit:					;@ BG tiles
 	ldr r0,=BG_GFX+0x8000		;@ r0 = NDS BG tileset
 	ldr r1,=vromBase0
 	ldr r1,[r1]					;@ r1 = even bytes
-	mov r2,#0x1000				;@ Length
-	bl convertTilesYieAr
+	bl yiearConvertTiles
 
 	ldr r0,=vromBase1
 	ldr r0,[r0]					;@ r1 = even bytes
@@ -189,7 +188,7 @@ vblIrqHandler:
 	cmp r0,#UNSCALED
 	moveq r6,#0
 	ldrne r6,=0x80000000 + ((GAME_HEIGHT-SCREEN_HEIGHT)*0x10000) / (SCREEN_HEIGHT-1)		;@ NDS 0x2B10 (was 0x2AAB)
-	ldrbeq r8,yStart
+	ldrbeq r7,yStart
 	movne r7,#0
 	add r7,r7,#0x10
 	mov r7,r7,lsl#16
@@ -267,9 +266,9 @@ endFrame:					;@ Called just before screen end (~line 240)	(r0-r2 safe to use)
 	stmfd sp!,{r3,lr}
 
 	mov r0,#BG_GFX
-	bl convertTileMapYieAr
+	bl yiearConvertTileMap
 	ldr r0,tmpOamBuffer
-	bl convertSpritesYieAr
+	bl yiearConvertSprites
 ;@--------------------------
 
 	ldr r0,dmaOamBuffer
@@ -296,17 +295,17 @@ dmaOamBuffer:		.long OAM_BUFFER2
 oamBufferReady:		.long 0
 emuPaletteReady:	.long 0
 ;@----------------------------------------------------------------------------
-yieArReset0:			;@ r0=periodicIrqFunc, r1=frameIrqFunc
+yiearReset0:			;@ r0=periodicIrqFunc, r1=frameIrqFunc, r2=ram
 ;@----------------------------------------------------------------------------
 	adr koptr,yieAr_0
-	b yieArReset
+	b yiearReset
 ;@----------------------------------------------------------------------------
 yieArRam_0R:				;@ Ram read (0x5000-0x5FFF)
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{addy,lr}
 	mov r1,addy
 	adr koptr,yieAr_0
-	bl yieArRam_R
+	bl yiearRamR
 	ldmfd sp!,{addy,pc}
 ;@----------------------------------------------------------------------------
 yieArRam_0W:				;@ Ram write (0x5000-0x5FFF)
@@ -314,7 +313,7 @@ yieArRam_0W:				;@ Ram write (0x5000-0x5FFF)
 	stmfd sp!,{addy,lr}
 	mov r1,addy
 	adr koptr,yieAr_0
-	bl yieArRam_W
+	bl yiearRamW
 	ldmfd sp!,{addy,pc}
 ;@----------------------------------------------------------------------------
 yieAr_0W:					;@ I/O write  (0x4000)
@@ -322,7 +321,7 @@ yieAr_0W:					;@ I/O write  (0x4000)
 	stmfd sp!,{addy,lr}
 	mov r1,addy
 	adr koptr,yieAr_0
-	bl yieAr_W
+	bl yiearW
 	ldmfd sp!,{addy,pc}
 
 ;@----------------------------------------------------------------------------
@@ -341,7 +340,14 @@ wTop:
 	.byte 0
 	.byte 0,0
 
+#ifdef GBA
+	.section .sbss				;@ For the GBA
+#else
 	.section .bss
+#endif
+	.align 2
+CHR_DECODE:
+	.space 0x400
 OAM_BUFFER1:
 	.space 0x400
 OAM_BUFFER2:

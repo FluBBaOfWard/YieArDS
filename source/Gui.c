@@ -14,7 +14,7 @@
 #include "SN76496/Version.h"
 #include "YieArVideo/Version.h"
 
-#define EMUVERSION "V0.1.6 2023-11-05"
+#define EMUVERSION "V0.1.6 2024-02-17"
 
 static void uiDebug(void);
 
@@ -194,7 +194,7 @@ void nullUINormal(int key) {
 }
 
 void nullUIDebug(int key) {
-	if (key&KEY_TOUCH) {
+	if (key & KEY_TOUCH) {
 		openMenu();
 	}
 }
@@ -222,7 +222,9 @@ void scalingSet(){
 /// Change gamma (brightness)
 void gammaSet() {
 	gGammaValue++;
-	if (gGammaValue>4) gGammaValue=0;
+	if (gGammaValue > 4) {
+		gGammaValue = 0;
+	}
 	paletteInit(gGammaValue);
 	paletteTxAll();					// Make new palette visible
 	setupMenuPalette();
@@ -230,11 +232,11 @@ void gammaSet() {
 
 /// Turn on/off rendering of background
 void bgrLayerSet(){
-	gGfxMask^=0x0F;
+	gGfxMask ^= 0x0F;
 }
 /// Turn on/off rendering of sprites
 void sprLayerSet(){
-	gGfxMask^=0x10;
+	gGfxMask ^= 0x10;
 }
 
 /// Number of coins for credits

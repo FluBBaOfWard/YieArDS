@@ -65,7 +65,7 @@ konamiFrameLoop:
 	mov r0,#CYCLE_PSL
 	bl m6809RunXCycles
 	ldr koptr,=yieAr_0
-	bl doScanline
+	bl yiearDoScanline
 	cmp r0,#0
 	bne konamiFrameLoop
 ;@----------------------------------------------------------------------------
@@ -113,7 +113,7 @@ konamiStepLoop:
 	mov r0,#CYCLE_PSL
 	bl m6809RunXCycles
 	ldr koptr,=yieAr_0
-	bl doScanline
+	bl yiearDoScanline
 	cmp r0,#0
 	bne konamiStepLoop
 ;@----------------------------------------------------------------------------
