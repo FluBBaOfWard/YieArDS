@@ -10,9 +10,12 @@
 	.global emuFlags
 	.global cartFlags
 	.global romStart
+	.global mainCpu
+	.global soundCpu
 	.global vromBase0
 	.global vromBase1
 	.global promBase
+	.global vlmBase
 
 	.global ROM_Space
 	.global testState
@@ -81,22 +84,12 @@ loadCart: 		;@ Called from C:  r0=rom number, r1=emuflags
 	stmfd sp!,{r0-r1,r4-r11,lr}
 
 //	ldr r3,=rawRom
-	ldr r3,=ROM_Space
+	ldr r3,=ROM_Space			;@ r3=rombase til end of loadcart so DON'T FUCK IT UP
 
 	ldmfd sp!,{r0-r1}
 	str r0,romNum
 	str r1,emuFlags
-								;@ r3=rombase til end of loadcart so DON'T FUCK IT UP
-	str r3,romStart				;@ Set rom base
-	add r0,r3,#0x8000			;@ 0x8000
-	str r0,vromBase0			;@ Background
-	add r0,r0,#0x4000
-	str r0,vromBase1			;@ Sprites
-	add r0,r0,#0x10000
-	str r0,promBase				;@ Colour prom
-	add r0,r0,#0x20
-	str r0,vlmBase				;@ VLM speech data
-
+					
 	ldr r4,=MEMMAPTBL_
 	ldr r5,=RDMEMTBL_
 	ldr r6,=WRMEMTBL_
@@ -220,6 +213,10 @@ cartFlags:
 	.space 3
 
 romStart:
+mainCpu:
+	.long 0
+soundCpu:
+cpu2Start:
 	.long 0
 vromBase0:
 	.long 0

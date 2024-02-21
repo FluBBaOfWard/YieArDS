@@ -2,9 +2,10 @@ YieArDS revision history
 -=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-V0.1.6 - 2024-02-17 (FluBBa)
+V0.1.6 - 2024-02-21 (FluBBa)
 	Added new debug menu.
 	Better menu traversing.
+	Better rom loading.
 
 V0.1.5 - 2021-03-23 (FluBBa)
 	Added load/save state.

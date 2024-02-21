@@ -14,7 +14,7 @@
 #include "SN76496/Version.h"
 #include "YieArVideo/Version.h"
 
-#define EMUVERSION "V0.1.6 2024-02-17"
+#define EMUVERSION "V0.1.6 2024-02-21"
 
 static void uiDebug(void);
 
