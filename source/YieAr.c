@@ -33,8 +33,8 @@ int getStateSize() {
 	return size;
 }
 
-static const ArcadeRom yiearRoms[14] = {
-	// ROM_REGION( 0x10000, "maincpu", 0 )
+const ArcadeRom yiearRoms[15] = {
+	{ROM_REGION,   0x10000, (int)&mainCpu},
 	{"407_i08.10d", 0x4000, 0xe2d7458b},
 	{"407_i07.8d",  0x4000, 0x7db7442e},
 	{ROM_REGION,   0x04000, (int)&vromBase0},
@@ -51,8 +51,8 @@ static const ArcadeRom yiearRoms[14] = {
 	{"407_c09.8b",  0x2000, 0xf75a1539},
 };
 
-static const ArcadeRom yiear2Roms[14] = {
-	// ROM_REGION( 0x10000, "maincpu", 0 )
+const ArcadeRom yiear2Roms[15] = {
+	{ROM_REGION,   0x10000, (int)&mainCpu},
 	{"407_g08.10d", 0x4000, 0x49ecd9dd},
 	{"407_g07.8d",  0x4000, 0xbc2e1208},
 	{ROM_REGION,   0x04000, (int)&vromBase0},
