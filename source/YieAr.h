@@ -9,8 +9,8 @@ extern "C" {
 
 #define GAME_COUNT (2)
 
-const ArcadeRom yiearRoms[15];
-const ArcadeRom yiear2Roms[15];
+extern const ArcadeRom yiearRoms[15];
+extern const ArcadeRom yiear2Roms[15];
 
 extern const ArcadeGame yiearGames[GAME_COUNT];
 
