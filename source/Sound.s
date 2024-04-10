@@ -9,10 +9,10 @@
 	.global setMuteSoundGame
 	.global SN_0_W
 	.global VLM_R
-	.global VLM_W
+	.global VLM_YA_W
 	.global VLMData_W
 
-	.global SN76496_0
+	.global sn76496_0
 	.extern pauseEmulation
 
 
@@ -27,7 +27,7 @@ soundInit:
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{lr}
 
-//	ldr r0,=SN76496_0
+//	ldr r0,=sn76496_0
 //	ldr r1,=FREQTBL
 //	bl sn76496Init				;@ Sound
 
@@ -38,7 +38,7 @@ soundInit:
 soundReset:
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{lr}
-	ldr r1,=SN76496_0
+	ldr r1,=sn76496_0
 	mov r0,#1
 	bl sn76496Reset				;@ Sound
 	ldmfd sp!,{lr}
@@ -67,9 +67,8 @@ VblSound2:					;@ r0=length, r1=pointer
 	bne silenceMix
 	stmfd sp!,{r0,r1,r4,lr}
 
-	mov r0,r0,lsl#1
 	ldr r1,pcmPtr0
-	ldr r2,=SN76496_0
+	ldr r2,=sn76496_0
 	bl sn76496Mixer
 
 	ldmfd sp,{r0}
@@ -80,76 +79,35 @@ VblSound2:					;@ r0=length, r1=pointer
 	blx vlm5030_update_callback
 
 	ldmfd sp,{r0,r1}
-	ldr r2,pcmPtr0
+	ldr r12,pcmPtr0
 	ldr r3,pcmPtr1
 mixLoop:
-	ldrsh r12,[r3],#2
-	mov r12,r12,lsl#15
+	ldrsh r4,[r3]
+	tst r0,#4
+	addne r3,r3,#2
 
-	ldr r4,[r2],#4
-	adds r4,r4,r4,lsl#16
-	mov r4,r4,rrx
-	add r4,r12,r4,asr#2
-	mov r4,r4,lsr#16
-	subs r0,r0,#1
-	strhpl r4,[r1],#2
+	ldrsh r2,[r12],#2
+	add r2,r4,r2,asr#2
+	mov r2,r2,asr#1
+	strh r2,[r1],#2
 
-	ldr r4,[r2],#4
-	adds r4,r4,r4,lsl#16
-	mov r4,r4,rrx
-	add r4,r12,r4,asr#2
-	mov r4,r4,lsr#16
-	subs r0,r0,#1
-	strhpl r4,[r1],#2
+	ldrsh r2,[r12],#2
+	add r2,r4,r2,asr#2
+	mov r2,r2,asr#1
+	strh r2,[r1],#2
 
-	ldr r4,[r2],#4
-	adds r4,r4,r4,lsl#16
-	mov r4,r4,rrx
-	add r4,r12,r4,asr#2
-	mov r4,r4,lsr#16
-	subs r0,r0,#1
-	strhpl r4,[r1],#2
+	ldrsh r2,[r12],#2
+	add r2,r4,r2,asr#2
+	mov r2,r2,asr#1
+	strh r2,[r1],#2
 
-	ldr r4,[r2],#4
-	adds r4,r4,r4,lsl#16
-	mov r4,r4,rrx
-	add r4,r12,r4,asr#2
-	mov r4,r4,lsr#16
-	subs r0,r0,#1
-	strhpl r4,[r1],#2
+	ldrsh r2,[r12],#2
+	add r2,r4,r2,asr#2
+	mov r2,r2,asr#1
+	strh r2,[r1],#2
 
-	ldr r4,[r2],#4
-	adds r4,r4,r4,lsl#16
-	mov r4,r4,rrx
-	add r4,r12,r4,asr#2
-	mov r4,r4,lsr#16
-	subs r0,r0,#1
-	strhpl r4,[r1],#2
-
-	ldr r4,[r2],#4
-	adds r4,r4,r4,lsl#16
-	mov r4,r4,rrx
-	add r4,r12,r4,asr#2
-	mov r4,r4,lsr#16
-	subs r0,r0,#1
-	strhpl r4,[r1],#2
-
-	ldr r4,[r2],#4
-	adds r4,r4,r4,lsl#16
-	mov r4,r4,rrx
-	add r4,r12,r4,asr#2
-	mov r4,r4,lsr#16
-	subs r0,r0,#1
-	strhpl r4,[r1],#2
-
-	ldr r4,[r2],#4
-	adds r4,r4,r4,lsl#16
-	mov r4,r4,rrx
-	add r4,r12,r4,asr#2
-	mov r4,r4,lsr#16
-	subs r0,r0,#1
-	strhpl r4,[r1],#2
-	bgt mixLoop
+	subs r0,r0,#4
+	bhi mixLoop
 
 	ldmfd sp!,{r0,r1,r4,lr}
 	bx lr
@@ -168,13 +126,25 @@ silenceLoop:
 SN_0_W:
 ;@----------------------------------------------------------------------------
 	stmfd sp!,{r3,lr}
-	ldr r1,=SN76496_0
+	ldr r1,=sn76496_0
 	bl sn76496W
 	ldmfd sp!,{r3,lr}
 	bx lr
 
 ;@----------------------------------------------------------------------------
-VLM_W:
+VLM_R:
+;@----------------------------------------------------------------------------
+	cmp r12,#0x0000
+	bne empty_R
+	stmfd sp!,{r3,lr}
+	ldr r0,=vlm5030Chip
+	ldr r0,[r0]
+	blx VLM5030_BSY
+	cmp r0,#0
+	movne r0,#1
+	ldmfd sp!,{r3,pc}
+;@----------------------------------------------------------------------------
+VLM_YA_W:
 ;@----------------------------------------------------------------------------
 	mov r1,r0
 	ldr r0,=vlm5030Chip
@@ -198,19 +168,6 @@ VLMData_W:
 	stmfd sp!,{r3,lr}
 	blx VLM5030_WRITE8
 	ldmfd sp!,{r3,pc}
-;@----------------------------------------------------------------------------
-VLM_R:
-;@----------------------------------------------------------------------------
-	cmp r12,#0x0000
-	bne empty_R
-vlmBusy:
-	stmfd sp!,{r3,lr}
-	ldr r0,=vlm5030Chip
-	ldr r0,[r0]
-	blx VLM5030_BSY
-	cmp r0,#0
-	movne r0,#1
-	ldmfd sp!,{r3,pc}
 
 ;@----------------------------------------------------------------------------
 pcmPtr0:	.long WAVBUFFER
@@ -225,7 +182,7 @@ muteSoundGame:
 
 	.section .bss
 	.align 2
-SN76496_0:
+sn76496_0:
 	.space snSize
 WAVBUFFER:
 	.space 0x1000

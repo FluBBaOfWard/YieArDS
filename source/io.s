@@ -170,7 +170,7 @@ YieArIO_W:					;@I/O write		0x4000-0x4FFF
 	cmp addy,#0x4900			;@ Make sound chip read value.
 	bxeq lr
 	cmp addy,#0x4A00			;@ VLM ctrl
-	beq VLM_W
+	beq VLM_YA_W
 	cmp addy,#0x4B00			;@ VLM data
 	beq VLMData_W
 	cmp addy,#0x4000

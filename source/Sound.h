@@ -13,7 +13,8 @@ extern "C" {
 #define sample_rate 55930
 #define buffer_size (512+10)
 
-extern SN76496 SN76496_0;
+extern SN76496 sn76496_0;
+
 void soundInit(void);
 void setMuteSoundGUI(void);
 mm_word VblSound2(mm_word length, mm_addr dest, mm_stream_formats format);

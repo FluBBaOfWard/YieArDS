@@ -13,7 +13,7 @@
 int yaPackState(void *statePtr) {
 	int size = 0;
 	size += yiearSaveState(statePtr+size, &yieAr_0);
-	size += sn76496SaveState(statePtr+size, &SN76496_0);
+	size += sn76496SaveState(statePtr+size, &sn76496_0);
 	size += m6809SaveState(statePtr+size, &m6809CPU0);
 	return size;
 }
@@ -21,7 +21,7 @@ int yaPackState(void *statePtr) {
 void yaUnpackState(const void *statePtr) {
 	int size = 0;
 	size += yiearLoadState(&yieAr_0, statePtr+size);
-	size += sn76496LoadState(&SN76496_0, statePtr+size);
+	size += sn76496LoadState(&sn76496_0, statePtr+size);
 	m6809LoadState(&m6809CPU0, statePtr+size);
 }
 
