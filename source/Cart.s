@@ -75,7 +75,7 @@ doCpuMappingYieAr:
 yieArMapping:						;@ Yie Ar Kung-Fu
 	.long emptySpace, VLM_R, empty_W							;@ IO
 	.long emptySpace, empty_R, empty_W							;@ Empty
-	.long emuRAM-0x1000, IO_R, IO_W								;@ Graphic
+	.long emuRAM-0x1000, YieArIO_R, YieArIO_W					;@ Graphic
 	.long emptySpace, empty_R, empty_W							;@ Empty
 	.long 0, mem6809R4, rom_W									;@ ROM
 	.long 1, mem6809R5, rom_W									;@ ROM

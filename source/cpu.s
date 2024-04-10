@@ -55,23 +55,7 @@ runStart:
 
 	bl refreshEMUjoypads		;@ Z=1 if communication ok
 
-	ldr m6809ptr,=m6809CPU0
-	add r0,m6809ptr,#m6809Regs
-	ldmia r0,{m6809f-m6809pc,m6809sp}	;@ Restore M6809 state
-
-;@----------------------------------------------------------------------------
-konamiFrameLoop:
-;@----------------------------------------------------------------------------
-	mov r0,#CYCLE_PSL
-	bl m6809RunXCycles
-	ldr koptr,=yieAr_0
-	bl yiearDoScanline
-	cmp r0,#0
-	bne konamiFrameLoop
-;@----------------------------------------------------------------------------
-
-	add r0,m6809ptr,#m6809Regs
-	stmia r0,{m6809f-m6809pc,m6809sp}	;@ Save M6809 state
+	bl yaRunFrame
 
 	ldr r1,=fpsValue
 	ldr r0,[r1]
@@ -91,6 +75,21 @@ konamiFrameLoop:
 	b runStart
 
 ;@----------------------------------------------------------------------------
+stepFrame:					;@ Return after 1 frame
+	.type   stepFrame STT_FUNC
+;@----------------------------------------------------------------------------
+	stmfd sp!,{r4-r11,lr}
+
+	bl yaRunFrame
+
+	ldr r1,frameTotal
+	add r1,r1,#1
+	str r1,frameTotal
+
+	ldmfd sp!,{r4-r11,lr}
+	bx lr
+
+;@----------------------------------------------------------------------------
 cyclesPerScanline:	.long 0
 frameTotal:			.long 0		;@ Let Gui.c see frame count for savestates
 waitCountIn:		.byte 0
@@ -99,33 +98,26 @@ waitCountOut:		.byte 0
 waitMaskOut:		.byte 0
 
 ;@----------------------------------------------------------------------------
-stepFrame:					;@ Return after 1 frame
-	.type   stepFrame STT_FUNC
+yaRunFrame:					;@ Yie Ar Kung-Fu
 ;@----------------------------------------------------------------------------
-	stmfd sp!,{r4-r11,lr}
-
+	stmfd sp!,{lr}
 	ldr m6809ptr,=m6809CPU0
 	add r0,m6809ptr,#m6809Regs
 	ldmia r0,{m6809f-m6809pc,m6809sp}	;@ Restore M6809 state
 ;@----------------------------------------------------------------------------
-konamiStepLoop:
+yaFrameLoop:
 ;@----------------------------------------------------------------------------
 	mov r0,#CYCLE_PSL
 	bl m6809RunXCycles
 	ldr koptr,=yieAr_0
 	bl yiearDoScanline
 	cmp r0,#0
-	bne konamiStepLoop
+	bne yaFrameLoop
 ;@----------------------------------------------------------------------------
 	add r0,m6809ptr,#m6809Regs
 	stmia r0,{m6809f-m6809pc,m6809sp}	;@ Save M6809 state
+	ldmfd sp!,{pc}
 
-	ldr r1,frameTotal
-	add r1,r1,#1
-	str r1,frameTotal
-
-	ldmfd sp!,{r4-r11,lr}
-	bx lr
 ;@----------------------------------------------------------------------------
 bloHack:
 ;@----------------------------------------------------------------------------

@@ -7,21 +7,21 @@ extern "C" {
 
 #include "Shared/ArcadeRoms.h"
 
-#define GAME_COUNT (2)
+#define YA_GAME_COUNT (2)
 
 extern const ArcadeRom yiearRoms[15];
 extern const ArcadeRom yiear2Roms[15];
 
-extern const ArcadeGame yiearGames[GAME_COUNT];
+extern const ArcadeGame yiearGames[YA_GAME_COUNT];
 
 /// This runs all save state functions for each chip.
-int packState(void *statePtr);
+int yaPackState(void *statePtr);
 
 /// This runs all load state functions for each chip.
-void unpackState(const void *statePtr);
+void yaUnpackState(const void *statePtr);
 
 /// Gets the total state size in bytes.
-int getStateSize(void);
+int yaGetStateSize(void);
 
 #ifdef __cplusplus
 } // extern "C"

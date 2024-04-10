@@ -10,6 +10,7 @@
 	.global SN_0_W
 	.global VLM_R
 	.global VLM_W
+	.global VLMData_W
 
 	.global SN76496_0
 	.extern pauseEmulation
@@ -175,8 +176,6 @@ SN_0_W:
 ;@----------------------------------------------------------------------------
 VLM_W:
 ;@----------------------------------------------------------------------------
-	cmp r12,#0x4A00
-	bne notVLMPins
 	mov r1,r0
 	ldr r0,=vlm5030Chip
 	ldr r0,[r0]
@@ -190,9 +189,9 @@ VLM_W:
 	and r1,r1,#1
 	blx VLM5030_RST
 	ldmfd sp!,{r3,pc}
-notVLMPins:
-	cmp r12,#0x4B00
-	bne empty_W
+;@----------------------------------------------------------------------------
+VLMData_W:
+;@----------------------------------------------------------------------------
 	mov r1,r0
 	ldr r0,=vlm5030Chip
 	ldr r0,[r0]

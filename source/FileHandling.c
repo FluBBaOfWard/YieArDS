@@ -11,6 +11,7 @@
 #include "Cart.h"
 #include "Gfx.h"
 #include "io.h"
+#include "YieAr.h"
 
 static const char *const folderName = "acds";
 static const char *const settingName = "settings.cfg";
@@ -99,6 +100,18 @@ void loadState() {
 void saveState() {
 	saveDeviceState(folderName);
 }
+int packState(void *statePtr) {
+	return yaPackState(statePtr);
+}
+
+void unpackState(const void *statePtr) {
+	yaUnpackState(statePtr);
+}
+
+int getStateSize() {
+	return yaGetStateSize();
+}
+
 
 //---------------------------------------------------------------------------------
 static bool loadRoms(int gameNr, bool doLoad) {

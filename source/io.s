@@ -16,8 +16,8 @@
 	.global ioReset
 	.global convertInput
 	.global refreshEMUjoypads
-	.global IO_R
-	.global IO_W
+	.global YieArIO_R
+	.global YieArIO_W
 
 	.syntax unified
 	.arm
@@ -140,7 +140,7 @@ Input5_R:
 	bx lr
 
 ;@----------------------------------------------------------------------------
-IO_R:			;@ I/O read		0x4000-0x4FFF
+YieArIO_R:					;@ I/O read		0x4000-0x4FFF
 ;@----------------------------------------------------------------------------
 	tst addy,#0x1000
 	bne mem6809R2
@@ -161,7 +161,7 @@ IO_R:			;@ I/O read		0x4000-0x4FFF
 	.long Input3_R				;@ 0x4E03
 
 ;@----------------------------------------------------------------------------
-IO_W:			;@I/O write		0x4000-0x4FFF
+YieArIO_W:					;@I/O write		0x4000-0x4FFF
 ;@----------------------------------------------------------------------------
 	tst addy,#0x1000
 	bne ram6809W
@@ -170,8 +170,9 @@ IO_W:			;@I/O write		0x4000-0x4FFF
 	cmp addy,#0x4900			;@ Make sound chip read value.
 	bxeq lr
 	cmp addy,#0x4A00			;@ VLM ctrl
-	cmpne addy,#0x4B00			;@ VLM data
 	beq VLM_W
+	cmp addy,#0x4B00			;@ VLM data
+	beq VLMData_W
 	cmp addy,#0x4000
 	beq yieAr_0W
 	cmp addy,#0x4F00

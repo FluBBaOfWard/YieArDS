@@ -10,7 +10,7 @@
 #include "ARM6809/ARM6809.h"
 
 
-int packState(void *statePtr) {
+int yaPackState(void *statePtr) {
 	int size = 0;
 	size += yiearSaveState(statePtr+size, &yieAr_0);
 	size += sn76496SaveState(statePtr+size, &SN76496_0);
@@ -18,14 +18,14 @@ int packState(void *statePtr) {
 	return size;
 }
 
-void unpackState(const void *statePtr) {
+void yaUnpackState(const void *statePtr) {
 	int size = 0;
 	size += yiearLoadState(&yieAr_0, statePtr+size);
 	size += sn76496LoadState(&SN76496_0, statePtr+size);
 	m6809LoadState(&m6809CPU0, statePtr+size);
 }
 
-int getStateSize() {
+int yaGetStateSize() {
 	int size = 0;
 	size += yiearGetStateSize();
 	size += sn76496GetStateSize();
@@ -69,7 +69,7 @@ const ArcadeRom yiear2Roms[15] = {
 	{"407_c09.8b",  0x2000, 0xf75a1539},
 };
 
-const ArcadeGame yiearGames[GAME_COUNT] = {
+const ArcadeGame yiearGames[YA_GAME_COUNT] = {
 	AC_GAME("yiear",  "Yie Ar Kung-Fu (program code I)", yiearRoms)
 	AC_GAME("yiear2", "Yie Ar Kung-Fu (program code G)", yiear2Roms)
 };

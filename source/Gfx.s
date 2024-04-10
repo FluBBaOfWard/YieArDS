@@ -66,13 +66,13 @@ gfxReset:					;@ Called with CPU reset
 	mov r1,#REG_BASE
 	ldr r0,=0x00FF				;@ Start-end
 	strh r0,[r1,#REG_WIN0H]
-	mov r0,#0x00C0				;@ Start-end
+	mov r0,#SCREEN_HEIGHT		;@ Start-end
 	strh r0,[r1,#REG_WIN0V]
 	mov r0,#0x0000
 	strh r0,[r1,#REG_WINOUT]
 
-	ldr r0,=m6809SetNMIPin
-	ldr r1,=m6809SetIRQPin
+	ldr r0,=m6809SetNMIPinCurrentCpu
+	ldr r1,=m6809SetIRQPinCurrentCpu
 	ldr r2,=emuRAM
 	bl yiearReset0
 	bl bgInit
