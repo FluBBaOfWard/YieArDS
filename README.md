@@ -1,5 +1,7 @@
 # YieArDS V0.1.6
 
+This has now been superseded by <https://github.com/FluBBaOfWard/K80DS>.
+
 This is a Yie Ar Kung-Fu - Arcade emulator for the NDS.
 
 ## How to use

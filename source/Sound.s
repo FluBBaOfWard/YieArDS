@@ -9,7 +9,7 @@
 	.global setMuteSoundGame
 	.global SN_0_W
 	.global VLM_R
-	.global VLM_YA_W
+	.global VLM_W
 	.global VLMData_W
 
 	.global sn76496_0
@@ -144,7 +144,7 @@ VLM_R:
 	movne r0,#1
 	ldmfd sp!,{r3,pc}
 ;@----------------------------------------------------------------------------
-VLM_YA_W:
+VLM_W:
 ;@----------------------------------------------------------------------------
 	mov r1,r0
 	ldr r0,=vlm5030Chip
